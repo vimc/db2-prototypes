@@ -2,11 +2,11 @@ db:
   experiment:
     driver: RPostgres::Postgres
     args:
-      dbname: experiment
+      dbname: postgres
       host: wpia-db-experiment.dide.ic.ac.uk
       port: 5432
-      user: vagrant
-      password: postgres
+      user: postgres
+      password: password
     log_table: dettl_import_log
   annex:
     driver: RPostgres::Postgres
