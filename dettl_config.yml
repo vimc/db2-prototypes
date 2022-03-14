@@ -1,0 +1,30 @@
+db:
+  experiment:
+    driver: RPostgres::Postgres
+    args:
+      dbname: experiment
+      host: wpia-db-experiment.dide.ic.ac.uk
+      port: 5432
+      user: vagrant
+      password: postgres
+    log_table: dettl_import_log
+  annex:
+    driver: RPostgres::Postgres
+    args:
+      dbname: montagu
+      host: annex.montagu.dide.ic.ac.uk
+      port: 15432
+      user: vimc
+      password: VAULT:/secret/annex/users/vimc:password
+    log_table: dettl_import_log
+  science:
+    driver: RPostgres::Postgres
+    args:
+      dbname: montagu
+      host: support.montagu.dide.ic.ac.uk
+      port: 5432
+      user: import
+      password: VAULT:/secret/database/science/users/import:password
+    log_table: dettl_import_log
+
+vault_server: https://support.montagu.dide.ic.ac.uk:8200
