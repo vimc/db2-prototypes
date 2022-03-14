@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+## Note this doesn't work as a script - run interactively
 
 montagu::montagu_server_global_default_set(
   montagu::montagu_server("production", "montagu.vaccineimpact.org"))
