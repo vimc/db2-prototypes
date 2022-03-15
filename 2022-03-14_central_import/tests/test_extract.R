@@ -3,11 +3,12 @@ context("extract")
 testthat::test_that("extracted data is as expected", {
   expect_false(is.null(extracted_data))
   expect_setequal(names(extracted_data),
-                  c("no_vac", "preventive_default", "preventive_ia2030",
-                    "routine_default", "routine_ia2030"))
-  expect_true(nrow(extracted_data$no_vac) > 0)
-  expect_true(nrow(extracted_data$preventive_default) > 0)
-  expect_true(nrow(extracted_data$preventive_ia2030) > 0)
-  expect_true(nrow(extracted_data$routine_default) > 0)
-  expect_true(nrow(extracted_data$routine_ia2030) > 0)
+                  c("yf-no-vaccination", "yf-preventive-default",
+                    "yf-preventive-ia2030_target", "yf-routine-default",
+                    "yf-routine-ia2030_target"))
+  expect_true(nrow(extracted_data[["yf-no-vaccination"]]) > 0)
+  expect_true(nrow(extracted_data[["yf-preventive-default"]]) > 0)
+  expect_true(nrow(extracted_data[["yf-preventive-ia2030_target"]]) > 0)
+  expect_true(nrow(extracted_data[["yf-routine-default"]]) > 0)
+  expect_true(nrow(extracted_data[["yf-routine-ia2030_target"]]) > 0)
 })

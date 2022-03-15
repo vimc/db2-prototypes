@@ -11,10 +11,10 @@
 #' @keywords internal
 extract <- function(con) {
   list(
-    no_vac = read.csv("central/yf-no-vaccination.csv"),
-    preventive_default = read.csv("central/yf-preventive-default.csv"),
-    preventive_ia2030 = read.csv("central/yf-preventive-ia2030-target.csv"),
-    routine_default = read.csv("central/yf-routine-default.csv"),
-    routine_ia2030 = read.csv("central/yf-routine-ia2030-target.csv")
+    `yf-no-vaccination` = read.csv("central/yf-no-vaccination.csv"),
+    `yf-preventive-default` = read.csv("central/yf-preventive-default.csv"),
+    `yf-preventive-ia2030_target` = read.csv("central/yf-preventive-ia2030_target.csv"),
+    `yf-routine-default` = read.csv("central/yf-routine-default.csv"),
+    `yf-routine-ia2030_target` = read.csv("central/yf-routine-ia2030_target.csv")
   )
 }

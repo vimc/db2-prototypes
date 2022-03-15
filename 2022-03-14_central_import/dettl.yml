@@ -1,5 +1,5 @@
 dettl:
-  mode: append
+  mode: create
 
 sources:
   - R/extract.R
