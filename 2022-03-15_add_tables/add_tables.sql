@@ -1,12 +1,12 @@
 CREATE SEQUENCE metadata_id_seq;
 
 CREATE TABLE metadata (
-  id              integer NOT NULL DEFAULT nextval('metadata_id_seq'),
+  id              integer DEFAULT nextval('metadata_id_seq'),
   touchstone      text NOT NULL,
   modelling_group text NOT NULL,
   disease         text NOT NULL,
-  version         integer NOT NULL DEFAULT 1,
-  creation_date   date NOT NULL DEFAULT now()
+  version         integer DEFAULT 1,
+  creation_date   date DEFAULT now()
 );
 
 ALTER SEQUENCE metadata_id_seq OWNED BY metadata.id;
