@@ -1,3 +1,25 @@
+## Import centrals 
+
+This DB import will import centrals from 202110gavi-3 touchstone for YF for subset of countries AGO, BEN and BFA. We can use this for benchmarking and iterate to imports for VIMC 2.0 database. This dir has 2 things
+
+* pull_data.R - script containing code to pull central burden estimates from montagu API (needs to be run manually)
+* dettl import - import script which loads the downloaded csvs, transform them into desired format and load into the database
+
+Have split like this as the import running from csvs will give us better analogy to what the real import of data will do.
+
+## Benchmark
+
+From my workstation running import: 
+
+```
+start <- Sys.time()
+dettl::dettl_run("2022-03-14_central_import", stage = c("extract", "transform", "load"))
+end <- Sys.time()
+end - start
+```
+
+## Working notes
+
 Get raw centrals we can reconstruct using API https://github.com/vimc/orderly.server/pull/89/files#diff-f76db5028d674befe7594cebdb2707518843f23e764ee4c1e044a2efbb27110cR20
 
 GET /modelling-groups/{modelling-group-id}/responsibilities/{touchstone-id}/{scenario-id}/estimate-sets/{estimate-id}/estimates/
