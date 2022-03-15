@@ -3,9 +3,9 @@ context("transform")
 testthat::test_that("transformed data is as expected", {
   ## Example impl, extend or modify as required.
   expect_false(is.null(transformed_data))
-  expect_setequal(names(transformed_data), "stochastic_1")
-  expect_true(nrow(transformed_data$stochastic_1) > 0)
-  expect_setequal(colnames(transformed_data$stochastic_1), c(
+  expect_setequal(names(transformed_data), "stochastic_1_age_disag")
+  expect_true(nrow(transformed_data$stochastic_1_age_disag) > 0)
+  expect_setequal(colnames(transformed_data$stochastic_1_age_disag), c(
     "year", "age", "country", "run_id", "cohort_size",
     "cases_yf-no-vaccination", "dalys_yf-no-vaccination",
     "deaths_yf-no-vaccination", "cases_yf-preventive-default",
@@ -16,7 +16,7 @@ testthat::test_that("transformed data is as expected", {
     "cases_yf-routine-ia2030_target", "dalys_yf-routine-ia2030_target",
     "deaths_yf-routine-ia2030_target"
   ))
-  expect_true(all(transformed_data$stochastic_1$run_id != 0))
+  expect_true(all(transformed_data$stochastic_1_age_disag$run_id != 0))
   expect_true(all(
-    transformed_data$stochastic_1$country %in% c("AGO", "BEN", "BFA")))
+    transformed_data$stochastic_1_age_disag$country %in% c("AGO", "BEN", "BFA")))
 })

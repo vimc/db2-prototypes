@@ -6,6 +6,6 @@ verification_queries <- function(con) {
     metadata_row_count = as.integer(
       DBI::dbGetQuery(con, "select count(*) from metadata")[1, 1]),
     stochastic_row_count = as.integer(
-      DBI::dbGetQuery(con, "select count(*) from stochastic_1")[1, 1])
+      DBI::dbGetQuery(con, "select count(*) from stochastic_1_age_disag")[1, 1])
   )
 }

@@ -3,5 +3,5 @@ verification_queries <- function(con) {
   ## This will get run before and after the load stage and made available
   ## to the load tests so you can check for the differences made by load stage
   list(row_num = as.integer(
-    DBI::dbGetQuery(con, "select count(*) from stochastic_1")[1, 1]))
+    DBI::dbGetQuery(con, "select count(*) from stochastic_1_age_disag")[1, 1]))
 }

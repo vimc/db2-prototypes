@@ -11,7 +11,7 @@ CREATE TABLE metadata (
 
 ALTER SEQUENCE metadata_id_seq OWNED BY metadata.id;
 
-CREATE TABLE stochastic_1 (
+CREATE TABLE stochastic_1_age_disag (
   run_id                                 integer,
   year                                   integer,
   age                                    integer,

@@ -50,6 +50,6 @@ transform <- function(extracted_data) {
     dplyr::relocate(year, age, country, run_id)
   list(
     metadata = metadata,
-    stochastic_1 = data
+    stochastic_1_age_disag = data
   )
 }

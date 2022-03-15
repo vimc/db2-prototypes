@@ -35,6 +35,6 @@ transform <- function(extracted_data) {
 
   all_data <- lapply(extracted_data$run_ids, process_single_id)
   list(
-    stochastic_1 = do.call(dplyr::bind_rows, all_data)
+    stochastic_1_age_disag = do.call(dplyr::bind_rows, all_data)
   )
 }
