@@ -1,5 +1,6 @@
 context("load")
 
 test_that("new tables added", {
-  expect_equal(setdiff(after, before), c("metadata", "stochastic_1"))
+  expect_equal(after$metadata_row_count - before$metadata_row_count, 1)
+  expect_true(after$stochastic_row_count - before$stochastic_row_count > 0)
 })
