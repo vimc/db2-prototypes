@@ -12,5 +12,23 @@
 #'
 #' @keywords internal
 transform <- function(extracted_data) {
-  ## Implement transform
+  ## Take separate datasets and transform into
+  transformed_data <- lapply(extracted_data, function(data) {
+    data %>% dplyr::filter(country %in% c("AGO", "BEN", "BFA"))
+  })
+  ## Make 1 table containing
+  ## id - matches name of 2nd table
+  ## touchstone
+  ## modelling_group
+  ## disease
+  ## version?
+
+  ## 1 table match format of stochastic table
+  ## year
+  ## country
+  ## run_id - 0 for centrals
+  ## cases_no_vac
+  ## detahs_no_vac
+  ## dalys_no_vac
+  ## plus other scenarios
 }
