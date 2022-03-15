@@ -21,6 +21,7 @@ transform <- function(extracted_data) {
     touchstone = "202110gavi-3",
     modelling_group = "IC-Garske",
     disease = "YF",
+    version = 1,
     stringsAsFactors = FALSE
   )
 
