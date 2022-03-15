@@ -22,6 +22,7 @@ end - start
 First time this was in "create" mode which took 44.78 seconds.
 
 Running in "append" mode took 10.94 seconds.
+2nd run in "append" mode took 9.69 seconds.
 
 ## Working notes
 
