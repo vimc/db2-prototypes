@@ -19,7 +19,9 @@ dettl::dettl_run("2022-03-14_central_import", stage = c("extract", "transform", 
 end <- Sys.time()
 end - start
 ```
-Takes 44.78 seconds
+First time this was in "create" mode which took 44.78 seconds.
+
+Running in "append" mode took 10.94 seconds.
 
 ## Working notes
 
