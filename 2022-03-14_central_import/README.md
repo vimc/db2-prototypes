@@ -7,6 +7,8 @@ This DB import will import centrals from 202110gavi-3 touchstone for YF for subs
 
 Have split like this as the import running from csvs will give us better analogy to what the real import of data will do.
 
+This import creates tables, I haven't paid lots of attention to automatically created types but should do when we come to the proper thing.
+
 ## Benchmark
 
 From my workstation running import: 
