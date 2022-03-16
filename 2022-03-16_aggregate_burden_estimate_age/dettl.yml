@@ -1,0 +1,20 @@
+dettl:
+  mode: append
+
+sources:
+  - R/extract.R
+  - R/transform.R
+  - R/verification_queries.R
+
+extract:
+  func: extract
+  test: tests/test_extract.R
+
+transform:
+  func: transform
+  test: tests/test_transform.R
+
+load:
+  automatic: TRUE
+  verification_queries: verification_queries
+  test: tests/test_load.R
