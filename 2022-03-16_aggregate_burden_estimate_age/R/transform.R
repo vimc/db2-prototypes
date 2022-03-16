@@ -19,19 +19,23 @@ transform <- function(extracted_data) {
   stochastic_file <- merge(extracted_data$metadata, aggregates)
   stochastic_1 <- extracted_data$age_disag %>%
     dplyr::select(-cohort_size) %>%
+    dplyr::group_by(run_id, year, country) %>%
     sum_metrics()
   under5 <- extracted_data$age_disag %>%
     dplyr::filter(age <= 4)
   stochastic_2 <- under5 %>%
     dplyr::select(-cohort_size) %>%
+    dplyr::group_by(run_id, year, country) %>%
     sum_metrics()
   stochastic_3 <- extracted_data$age_disag %>%
     dplyr::mutate(cohort = year - age) %>%
-    dplyr::select(-cohort_size) %>%
+    dplyr::select(-cohort_size, -year) %>%
+    dplyr::group_by(run_id, cohort, country) %>%
     sum_metrics()
   stochastic_4 <- under5 %>%
     dplyr::mutate(cohort = year - age) %>%
-    dplyr::select(-cohort_size) %>%
+    dplyr::select(-cohort_size, -year) %>%
+    dplyr::group_by(run_id, cohort, country) %>%
     sum_metrics()
   list(
     stochastic_file = stochastic_file,
@@ -44,7 +48,6 @@ transform <- function(extracted_data) {
 
 sum_metrics <- function(data) {
   data %>%
-    dplyr::group_by(run_id, year, country) %>%
     dplyr::summarise(
       `cases_yf-no-vaccination` = sum(`cases_yf-no-vaccination`),
       `cases_yf-preventive-default` = sum(`cases_yf-preventive-default`),
