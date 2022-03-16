@@ -11,6 +11,7 @@
 #' @keywords internal
 extract <- function(con) {
   list(
+    metadata = DBI::dbGetQuery(con, "select touchstone, modelling_group, disease from metadata"),
     age_disag = DBI::dbGetQuery(con, "select * from stochastic_1_age_disag")
   )
 }

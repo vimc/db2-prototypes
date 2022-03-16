@@ -12,8 +12,36 @@
 #'
 #' @keywords internal
 transform <- function(extracted_data) {
-  data <- extracted_data$age_disag %>%
+  aggregates <- expand.grid(is_cohort = c(FALSE, TRUE),
+                            is_under5 = c(FALSE, TRUE))
+  stochastic_file <- merge(extracted_data$metadata, aggregates)
+  stochastic_1 <- extracted_data$age_disag %>%
     dplyr::select(-cohort_size) %>%
+    sum_metrics()
+  stochastic_2 <- extracted_data$age_disag %>%
+    dplyr::mutate(year = year - age) %>%
+    dplyr::select(-cohort_size) %>%
+    sum_metrics()
+  under5 <- extracted_data$age_disag %>%
+    dplyr::filter(age <= 4)
+  stochastic_3 <- under5 %>%
+    dplyr::select(-cohort_size) %>%
+    sum_metrics()
+  stochastic_4 <- under5 %>%
+    dplyr::mutate(year = year - age) %>%
+    dplyr::select(-cohort_size) %>%
+    sum_metrics()
+  list(
+    stochastic_file = stochastic_file,
+    stochastic_1 = stochastic_1,
+    stochastic_2 = stochastic_2,
+    stochastic_3 = stochastic_3,
+    stochastic_4 = stochastic_4
+  )
+}
+
+sum_metrics <- function(data) {
+  data %>%
     dplyr::group_by(run_id, year, country) %>%
     dplyr::summarise(
       `cases_yf-no-vaccination` = sum(`cases_yf-no-vaccination`),
@@ -30,9 +58,7 @@ transform <- function(extracted_data) {
       `deaths_yf-preventive-default` = sum(`deaths_yf-preventive-default`),
       `deaths_yf-preventive-ia2030_target` = sum(`deaths_yf-preventive-ia2030_target`),
       `deaths_yf-routine-default` = sum(`deaths_yf-routine-default`),
-      `deaths_yf-routine-ia2030_target` = sum(`deaths_yf-routine-ia2030_target`)
+      `deaths_yf-routine-ia2030_target` = sum(`deaths_yf-routine-ia2030_target`),
+      .groups = "keep"
     )
-  list(
-    stochastic_1 = data
-  )
 }
