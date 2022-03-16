@@ -57,7 +57,7 @@ CREATE TABLE stochastic_2 (
 
 CREATE TABLE stochastic_3 (
   run_id                                 integer,
-  year                                   integer,
+  cohort                                 integer,
   country                                varchar(3),
   "cases_yf-no-vaccination"              double precision,
   "cases_yf-preventive-default"          double precision,
@@ -78,7 +78,7 @@ CREATE TABLE stochastic_3 (
 
 CREATE TABLE stochastic_4 (
   run_id                                 integer,
-  year                                   integer,
+  cohort                                 integer,
   country                                varchar(3),
   "cases_yf-no-vaccination"              double precision,
   "cases_yf-preventive-default"          double precision,

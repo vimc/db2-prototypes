@@ -32,7 +32,7 @@ testthat::test_that("transformed data is as expected", {
   expect_true(nrow(transformed_data$stochastic_2) > 0)
 
   expect_setequal(colnames(transformed_data$stochastic_3), c(
-    "year", "country", "run_id",
+    "cohort", "country", "run_id",
     "cases_yf-no-vaccination", "dalys_yf-no-vaccination",
     "deaths_yf-no-vaccination", "cases_yf-preventive-default",
     "dalys_yf-preventive-default", "deaths_yf-preventive-default",
@@ -45,7 +45,7 @@ testthat::test_that("transformed data is as expected", {
   expect_true(nrow(transformed_data$stochastic_3) > 0)
 
   expect_setequal(colnames(transformed_data$stochastic_4), c(
-    "year", "country", "run_id",
+    "cohort", "country", "run_id",
     "cases_yf-no-vaccination", "dalys_yf-no-vaccination",
     "deaths_yf-no-vaccination", "cases_yf-preventive-default",
     "dalys_yf-preventive-default", "deaths_yf-preventive-default",

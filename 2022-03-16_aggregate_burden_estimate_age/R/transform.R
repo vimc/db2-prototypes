@@ -12,23 +12,25 @@
 #'
 #' @keywords internal
 transform <- function(extracted_data) {
-  aggregates <- expand.grid(is_cohort = c(FALSE, TRUE),
-                            is_under5 = c(FALSE, TRUE))
+  aggregates <- data.frame(
+    is_cohort = c(FALSE, FALSE, TRUE, TRUE),
+    is_under5 = c(FALSE, TRUE, FALSE, TRUE)
+  )
   stochastic_file <- merge(extracted_data$metadata, aggregates)
   stochastic_1 <- extracted_data$age_disag %>%
     dplyr::select(-cohort_size) %>%
     sum_metrics()
-  stochastic_2 <- extracted_data$age_disag %>%
-    dplyr::mutate(year = year - age) %>%
-    dplyr::select(-cohort_size) %>%
-    sum_metrics()
   under5 <- extracted_data$age_disag %>%
     dplyr::filter(age <= 4)
-  stochastic_3 <- under5 %>%
+  stochastic_2 <- under5 %>%
+    dplyr::select(-cohort_size) %>%
+    sum_metrics()
+  stochastic_3 <- extracted_data$age_disag %>%
+    dplyr::mutate(cohort = year - age) %>%
     dplyr::select(-cohort_size) %>%
     sum_metrics()
   stochastic_4 <- under5 %>%
-    dplyr::mutate(year = year - age) %>%
+    dplyr::mutate(cohort = year - age) %>%
     dplyr::select(-cohort_size) %>%
     sum_metrics()
   list(
