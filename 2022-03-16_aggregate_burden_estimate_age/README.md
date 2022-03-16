@@ -11,4 +11,5 @@ end <- Sys.time()
 end - start
 ```
 
-Running on my workstation took 48.10 seconds.
+Running on my workstation took 48.10 seconds
+Second run took 47.75 seconds
