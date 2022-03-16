@@ -14,6 +14,5 @@ dettl::dettl_run("2022-03-15_stochastic_import", stage = c("extract", "transform
 end <- Sys.time()
 end - start
 ```
-
 Took 13.38 mins to run
 2nd run took 13.99 mins to run
