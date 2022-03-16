@@ -10,3 +10,5 @@ dettl::dettl_run("2022-03-16_aggregate_burden_estimate_age", stage = c("extract"
 end <- Sys.time()
 end - start
 ```
+
+Running on my workstation took 37.30 seconds.
