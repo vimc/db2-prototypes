@@ -12,7 +12,7 @@
 #'
 #' @keywords internal
 transform <- function(extracted_data) {
-  data <- extracted_data$age_diag %>%
+  data <- extracted_data$age_disag %>%
     dplyr::select(-cohort_size) %>%
     dplyr::group_by(run_id, year, country) %>%
     dplyr::summarise(
