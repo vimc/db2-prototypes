@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 import <- function() {
   list(
     `yf-no-vaccination` = read.csv("central/yf-no-vaccination.csv"),
