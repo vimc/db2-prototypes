@@ -4,6 +4,15 @@ Throw away repo containing scripts and benchmarks of data import and querying fr
 
 How can we expect this to scale with more touchstones, more diseases and more countries?
 
+## Start DB
+
+```
+docker volume create pgdata
+docker run --name experiment -p 5432:5432 -v pgdata:/var/lib/postgresql/data -v "${PWD}":/src -e POSTGRES_PASSWORD=password -d postgres
+```
+
+If you want to remove the data then remove the pgdata volume
+
 ## Imports
 
 * 2022-03-15_add_tables - creates `metadata` and `stochastic_1_age_disag` tables with sql query to set structure used by following imports
