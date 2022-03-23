@@ -8,6 +8,15 @@ db:
       user: postgres
       password: password
     log_table: dettl_import_log
+  local:
+    driver: RPostgres::Postgres
+    args:
+      dbname: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: password
+    log_table: dettl_import_log
   annex:
     driver: RPostgres::Postgres
     args:
