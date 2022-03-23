@@ -1,5 +1,7 @@
 #!/usr/bin/env Rscript
 
+library("magrittr")
+
 import <- function() {
   input <- list(
     `yf-no-vaccination` = read.csv("central/yf-no-vaccination.csv"),
