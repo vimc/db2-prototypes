@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 import <- function() {
-  list(
+  input <- list(
     `yf-no-vaccination` = read.csv("central/yf-no-vaccination.csv"),
     `yf-preventive-default` = read.csv("central/yf-preventive-default.csv"),
     `yf-preventive-ia2030_target` = read.csv("central/yf-preventive-ia2030_target.csv"),
@@ -26,8 +26,8 @@ import <- function() {
   ## deaths_no_vac
   ## dalys_no_vac
   ## plus cases, deaths and dalys for each scenario
-  data <- lapply(names(extracted_data), function(name) {
-    data <- extracted_data[[name]]
+  data <- lapply(names(input), function(name) {
+    data <- input[[name]]
     data %>%
       dplyr::filter(country %in% c("AGO", "BEN", "BFA")) %>%
       dplyr::mutate(scenario = name)
