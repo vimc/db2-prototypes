@@ -1,21 +1,12 @@
-#' Transform data into a form ready for loading into database.
-#'
-#' This step is responsible for transforming the extracted data into a form
-#' which conforms with the database so it can be loaded at the next stage.
-#'
-#' @param extracted_data The extracted data from the extract stage.
-#'
-#' @return A named list of data frames representing the transformed data. This
-#' should conform to the database schema, where each list item matches the name
-#' of a table in the DB and the column names of each dataframe match the column
-#' names from the DB.
-#'
-#' @keywords internal
-transform <- function(extracted_data) {
-  ## Create metadata entry
-  ## matching format of stochastic_file table
-  ## id here matches the number which we will upload the
-  ## data at i.e. stochastic_1 here
+import <- function() {
+  list(
+    `yf-no-vaccination` = read.csv("central/yf-no-vaccination.csv"),
+    `yf-preventive-default` = read.csv("central/yf-preventive-default.csv"),
+    `yf-preventive-ia2030_target` = read.csv("central/yf-preventive-ia2030_target.csv"),
+    `yf-routine-default` = read.csv("central/yf-routine-default.csv"),
+    `yf-routine-ia2030_target` = read.csv("central/yf-routine-ia2030_target.csv")
+  )
+
   metadata <- data.frame(
     id = 1,
     touchstone = "202110gavi-3",
@@ -48,8 +39,19 @@ transform <- function(extracted_data) {
                        values_from = c("cases", "dalys", "deaths")) %>%
     dplyr::mutate(run_id = 0) %>%
     dplyr::relocate(year, age, country, run_id)
-  list(
-    metadata = metadata,
-    stochastic_1_age_disag = data
-  )
+
+  con <- dettl:::db_connect("local", ".")
+  DBI::dbWriteTable(con, "metadata", metadata)
+  DBI::dbWriteTable(con, "stochastic_1_age_disag", data)
 }
+
+start <- Sys.time()
+import()
+end <- Sys.time()
+time <- end - start
+message(time)
+output_file <- "timings.txt"
+if (!file.exists(output_file)) {
+  file.create(output_file)
+}
+write(time, file = output_file, append = TRUE)
