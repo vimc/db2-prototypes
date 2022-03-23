@@ -53,9 +53,10 @@ start <- Sys.time()
 import()
 end <- Sys.time()
 time <- end - start
-message(time)
+msg <- paste0(time, " ", attr(time, "units"))
+message(msg)
 output_file <- "timings.txt"
 if (!file.exists(output_file)) {
   file.create(output_file)
 }
-write(time, file = output_file, append = TRUE)
+write(msg, file = output_file, append = TRUE)
