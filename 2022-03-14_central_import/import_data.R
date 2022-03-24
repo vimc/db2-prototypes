@@ -31,7 +31,6 @@ import <- function() {
   data <- lapply(names(input), function(name) {
     data <- input[[name]]
     data %>%
-      dplyr::filter(country %in% c("AGO", "BEN", "BFA")) %>%
       dplyr::mutate(scenario = name)
   })
   data <- do.call(dplyr::bind_rows, data)

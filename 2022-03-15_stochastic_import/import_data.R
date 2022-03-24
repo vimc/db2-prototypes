@@ -27,8 +27,7 @@ import <- function() {
     add_columns <- function(scenario_no) {
       df <- data[[scenario_no]]
       df$scenario <- extracted_data$scenarios[scenario_no]
-      df %>%
-        dplyr::filter(country %in% c("AGO", "BEN", "BFA"))
+      df
     }
     run_data <- lapply(seq_along(extracted_data$scenarios), add_columns)
     run_data <- do.call(dplyr::bind_rows, run_data)
