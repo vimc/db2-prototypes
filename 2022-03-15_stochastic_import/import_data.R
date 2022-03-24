@@ -16,7 +16,7 @@ import <- function() {
   }, character(1))
   file_paths <- file.path("stochastics", files)
   data <- lapply(file_paths, read.csv)
-  extacted_data <- list(run_ids = run_ids,
+  extracted_data <- list(run_ids = run_ids,
        scenarios = scenarios,
        cases = cases,
        data = data)
