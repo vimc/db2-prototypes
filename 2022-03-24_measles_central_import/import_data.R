@@ -18,7 +18,7 @@ import <- function(id, modelling_group) {
   metadata <- data.frame(
     id = id,
     touchstone = "202110gavi-3",
-    modelling_group = modelling_gruop,
+    modelling_group = modelling_group,
     disease = "Measles",
     version = 1,
     stringsAsFactors = FALSE
