@@ -12,7 +12,7 @@ import <- function(id, modelling_group) {
     `measles-campaign-ia2030_target` = read.csv(sprintf("central/%s_measles-campaign-ia2030_target.csv", modelling_group)),
     `measles-campaign-only-ia2030_target` = read.csv(sprintf("central/%s_measles-campaign-only-ia2030_target.csv", modelling_group)),
     `measles-mcv1-ia2030_target` = read.csv(sprintf("central/%s_measles-mcv1-ia2030_target.csv", modelling_group)),
-    `measles-mcv2-ia2030_target` = read.csv(sprintf("central/%s_measles-mcv2-ia2030_target.csv", modelling_group)),
+    `measles-mcv2-ia2030_target` = read.csv(sprintf("central/%s_measles-mcv2-ia2030_target.csv", modelling_group))
   )
 
   metadata <- data.frame(
