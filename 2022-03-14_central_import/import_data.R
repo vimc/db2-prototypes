@@ -44,15 +44,22 @@ import <- function() {
     dplyr::mutate(run_id = 0) %>%
     dplyr::relocate(year, age, country, run_id)
 
+  ## write the data out here a migration and import as separate
+  ## only get timing for the import bit
+  if (!dir.exists("processed")) {
+    dir.create("processed", FALSE, FALSE)
+  }
+  write.csv(data, "processed/stochastics_1_age_disag.csv")
+
   con <- dettl:::db_connect("local", ".")
+  start <- Sys.time()
   DBI::dbWriteTable(con, "metadata", metadata)
   DBI::dbWriteTable(con, "stochastic_1_age_disag", data)
+  end <- Sys.time()
+  end - start
 }
 
-start <- Sys.time()
-import()
-end <- Sys.time()
-time <- end - start
+time <- import()
 msg <- paste0(time, " ", attr(time, "units"))
 message(msg)
 output_file <- "timings.txt"

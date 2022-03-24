@@ -1,9 +1,9 @@
 ## Import centrals 
 
-This DB import will import centrals from 202110gavi-3 touchstone for YF for subset of countries AGO, BEN and BFA. We can use this for benchmarking and iterate to imports for VIMC 2.0 database. This dir has 2 things
+This DB import will import centrals from 202110gavi-3 touchstone for YF. We can use this for benchmarking and iterate to imports for VIMC 2.0 database. This dir has 2 things
 
 * pull_data.R - script containing code to pull central burden estimates from montagu API (needs to be run manually)
-* import_data.r - import script which loads the downloaded csvs, transform them into desired format and loads into the database
+* import_data.r - import script which loads the downloaded csvs, transform them into desired format, saves these out as a csv into "processed" directory so we can see computed size and then loads into the database
 
 Have split like this as the import running from csvs will give us better analogy to what the real import of data will do.
 
@@ -11,7 +11,7 @@ This import creates tables, I haven't paid lots of attention to automatically cr
 
 ## Benchmark
 
-See timings in timings.txt on the server
+See timings in timings.txt on the server. The timings are time to import the data, processing time is excluded as the new data format we will get matches the format of the processed data.
 
 ## Working notes
 
