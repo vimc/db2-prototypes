@@ -4,12 +4,4 @@ This import will take the raw stochastic and central estimates from table `stoch
 
 ## Benchmark
 
-```
-start <- Sys.time()
-dettl::dettl_run("2022-03-16_aggregate_burden_estimate_age", stage = c("extract", "transform", "load"))
-end <- Sys.time()
-end - start
-```
-
-Running on my workstation took 48.10 seconds
-Second run took 47.75 seconds
+See timings in timings.txt on the server

@@ -6,13 +6,4 @@ The raw files are gitignored but need to be located in "stochastics" folder. The
 
 ## Benchmark
 
-From my workstation running import: 
-
-```
-start <- Sys.time()
-dettl::dettl_run("2022-03-15_stochastic_import", stage = c("extract", "transform", "load"))
-end <- Sys.time()
-end - start
-```
-Took 13.38 mins to run
-2nd run took 13.99 mins to run
+See timings in timings.txt on the server
