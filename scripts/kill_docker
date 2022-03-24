@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+docker kill experiment
+
+read -p "Remove volume?" -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    docker volume rm pgdata
+fi
