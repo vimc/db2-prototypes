@@ -49,7 +49,7 @@ import <- function() {
   if (!dir.exists("processed")) {
     dir.create("processed", FALSE, FALSE)
   }
-  write.csv(data, "processed/stochastics_1_age_disag.csv")
+  write.csv(data, "processed/stochastics_1_age_disag.csv", row.names = FALSE)
 
   con <- dettl:::db_connect("local", ".")
   start <- Sys.time()
