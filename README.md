@@ -17,6 +17,8 @@ If you want to remove the data then remove the pgdata volume
 
 * 2022-03-14_central_import - contains script to pull centrals from montagu API and then script to add to format and import into the database
 * 2022-03-15_stochastic_import - contains db import to upload stochastics from raw files into database. This transforms to a common pattern but does no aggregation
-* 2022-03-16_aggregate_burden_estimate_age - pulls age disaggregated data from database, aggregates over age and upload as `stochastic_1` table
+* 2022-03-24_measles_central_import - contains script to pull centrals from montagu API and then script to format and import into database
+* 2022-03-24_measles_stochastic_import - contains db import to upload stochastics from raw files into database. Transforms to a common pattern but does no aggregation
+* 2022-03-16_aggregate_burden_estimate_age - pulls age disaggregated data from database, aggregates over age and upload as `stochastic_n` tables
 
 ![diagram](diagrams/imports.png)
