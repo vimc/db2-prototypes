@@ -15,7 +15,7 @@ import <- function(id, root_name) {
   ## Add scenario column and filter unwanted data
   add_columns <- function(scenario_no) {
     df <- data[[scenario_no]]
-    df$scenario <- extracted_data$scenarios[scenario_no]
+    df$scenario <- scenarios[scenario_no]
     df
   }
   run_data <- lapply(seq_along(scenarios), add_columns)
