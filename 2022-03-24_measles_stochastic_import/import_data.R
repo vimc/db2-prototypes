@@ -35,7 +35,10 @@ import <- function(id, root_name) {
 }
 
 # PSU-Ferrari
-time <- import(2, "coverage_202110gavi-3_")
+start <- Sys.time()
+import(2, "coverage_202110gavi-3_")
+end <- Sys.time()
+time <- end - start
 msg <- paste0("PSU-Ferrari import: ", time, " ", attr(time, "units"))
 message(msg)
 output_file <- "timings.txt"
@@ -45,7 +48,10 @@ if (!file.exists(output_file)) {
 write(msg, file = output_file, append = TRUE)
 
 # LSHTM-Jit
-time <- import(3, "Han Fu - stochastic_burden_estimate_measles-LSHTM-Jit-")
+start <- Sys.time()
+import(3, "Han Fu - stochastic_burden_estimate_measles-LSHTM-Jit-")
+end <- Sys.time()
+time <- end - start
 msg <- paste0("LSHTM-Jit import: ", time, " ", attr(time, "units"))
 message(msg)
 write(msg, file = output_file, append = TRUE)
