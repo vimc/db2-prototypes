@@ -2,61 +2,50 @@
 
 library("magrittr")
 
-import <- function() {
-  run_ids <- 1:200
+import <- function(id, root_name) {
   scenarios <-  c("measles-no-vaccination", "measles-campaign-default",
                   "measles-campaign-only-default", "measles-mcv1-default",
                   "measles-mcv2-default", "measles-campaign-ia2030_target",
                   "measles-campaign-only-ia2030_target",
                   "measles-mcv1-ia2030_target", "measles-mcv2-ia2030_target")
-  cases <- expand.grid(run_ids, scenarios)
-  colnames(cases) <- c("run_id", "scenario")
-  files <- vapply(seq_len(nrow(cases)), function(row_no) {
-    row <- cases[row_no, ]
-    sprintf("Keith Fraser - stochastic-burden-estimates.202110gavi-3_YF_IC-Garske_%s_%s.csv.xz",
-            row$scenario, row$run_id)
-  }, character(1))
+  files <- sprintf("%s%s.csv.xz", root_name, scenarios)
   file_paths <- file.path("stochastics", files)
   data <- lapply(file_paths, read.csv)
-  extracted_data <- list(run_ids = run_ids,
-       scenarios = scenarios,
-       cases = cases,
-       data = data)
 
-  process_single_id <- function(run_id) {
-    data <- extracted_data$data[which(extracted_data$cases$run_id == run_id)]
-    ## Add scenario column and filter unwanted data
-    add_columns <- function(scenario_no) {
-      df <- data[[scenario_no]]
-      df$scenario <- extracted_data$scenarios[scenario_no]
-      df
-    }
-    run_data <- lapply(seq_along(extracted_data$scenarios), add_columns)
-    run_data <- do.call(dplyr::bind_rows, run_data)
-    run_data <- run_data %>%
-      dplyr::select(-disease, -country_name) %>%
-      tidyr::pivot_wider(id_cols = c("year", "age", "country", "cohort_size"),
-                         names_from = scenario,
-                         values_from = c("cases", "dalys", "deaths")) %>%
-      dplyr::mutate(run_id = run_id) %>%
-      dplyr::relocate(year, age, country, run_id)
+  ## Add scenario column and filter unwanted data
+  add_columns <- function(scenario_no) {
+    df <- data[[scenario_no]]
+    df$scenario <- extracted_data$scenarios[scenario_no]
+    df
   }
+  run_data <- lapply(seq_along(scenarios), add_columns)
+  run_data <- do.call(dplyr::bind_rows, run_data)
+  run_data <- run_data %>%
+    dplyr::select(-disease, -country_name) %>%
+    tidyr::pivot_wider(
+      id_cols = c("year", "age", "country", "run_id", "cohort_size"),
+      names_from = scenario,
+      values_from = c("cases", "dalys", "deaths"))
 
-  all_data <- lapply(extracted_data$run_ids, process_single_id)
-  stochastic_1_age_disag = do.call(dplyr::bind_rows, all_data)
+  stochastic_age_disag = do.call(dplyr::bind_rows, run_data)
 
   con <- dettl:::db_connect("local", ".")
-  DBI::dbAppendTable(con, "stochastic_1_age_disag", stochastic_1_age_disag)
+  DBI::dbAppendTable(con, sprintf("stochastic_%s_age_disag", id),
+                     stochastic_age_disag)
 }
 
-start <- Sys.time()
-import()
-end <- Sys.time()
-time <- end - start
-msg <- paste0(time, " ", attr(time, "units"))
+# PSU-Ferrari
+time <- import(2, "coverage_202110gavi-3_")
+msg <- paste0("PSU-Ferrari import: ", time, " ", attr(time, "units"))
 message(msg)
 output_file <- "timings.txt"
 if (!file.exists(output_file)) {
   file.create(output_file)
 }
+write(msg, file = output_file, append = TRUE)
+
+# LSHTM-Jit
+time <- import(3, "Han Fu - stochastic_burden_estimate_measles-LSHTM-Jit-")
+msg <- paste0("LSHTM-Jit import: ", time, " ", attr(time, "units"))
+message(msg)
 write(msg, file = output_file, append = TRUE)
