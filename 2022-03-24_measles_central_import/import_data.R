@@ -39,10 +39,10 @@ import <- function(id, modelling_group) {
                          values_from = c("cases", "dalys", "deaths")) %>%
       dplyr::mutate(run_id = 0) %>%
       dplyr::relocate(year, age, country, run_id)
-
   }
   all_data <- read_one(names(paths)[1])
   for (name in names(paths)[-1]) {
+    message("Processing ", name)
     data <- read_one(name)
     all_data <- do.call(dplyr::bind_rows, data)
     gc()
