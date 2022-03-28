@@ -9,29 +9,29 @@ import <- function(id, root_name) {
                   "measles-campaign-only-ia2030_target",
                   "measles-mcv1-ia2030_target", "measles-mcv2-ia2030_target")
   files <- sprintf("%s%s.csv.xz", root_name, scenarios)
-  file_paths <- file.path("stochastics", files)
-  data <- lapply(file_paths, read.csv)
+  file_paths <- setNames(file.path("stochastics", files), scenarios)
 
   ## Add scenario column and filter unwanted data
-  add_columns <- function(scenario_no) {
-    df <- data[[scenario_no]]
-    df$scenario <- scenarios[scenario_no]
-    df
+  read_one <- function(name) {
+    data <- readr::read_csv(file_paths[[name]])
+    data %>%
+      dplyr::mutate(scenario = name) %>%
+      dplyr::select(-disease, -country_name) %>%
+      tidyr::pivot_wider(id_cols = c("year", "age", "country", "run_id", "cohort_size"),
+                         names_from = scenario,
+                         values_from = c("cases", "dalys", "deaths"))
   }
-  run_data <- lapply(seq_along(scenarios), add_columns)
-  run_data <- do.call(dplyr::bind_rows, run_data)
-  run_data <- run_data %>%
-    dplyr::select(-disease, -country_name) %>%
-    tidyr::pivot_wider(
-      id_cols = c("year", "age", "country", "run_id", "cohort_size"),
-      names_from = scenario,
-      values_from = c("cases", "dalys", "deaths"))
-
-  stochastic_age_disag = do.call(dplyr::bind_rows, run_data)
+  all_data <- read_one(names(paths)[1])
+  for (name in names(file_paths)[-1]) {
+    message("Processing ", name)
+    data <- read_one(name)
+    all_data <- do.call(dplyr::bind_rows, data)
+    gc()
+  }
 
   con <- dettl:::db_connect("local", ".")
   DBI::dbAppendTable(con, sprintf("stochastic_%s_age_disag", id),
-                     stochastic_age_disag)
+                     all_data)
 }
 
 # PSU-Ferrari
@@ -46,6 +46,7 @@ if (!file.exists(output_file)) {
   file.create(output_file)
 }
 write(msg, file = output_file, append = TRUE)
+gc()
 
 # LSHTM-Jit
 start <- Sys.time()
