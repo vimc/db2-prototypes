@@ -25,7 +25,8 @@ import <- function(id, root_name) {
   for (name in names(file_paths)[-1]) {
     message("Processing ", name)
     data <- read_one(name)
-    all_data <- do.call(dplyr::bind_rows, data)
+    all_data <- dplyr::full_join(all_data, data,
+                                 by = c("year", "age", "country", "run_id", "cohort_size"))
     gc()
   }
 
