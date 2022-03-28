@@ -21,7 +21,7 @@ import <- function(id, root_name) {
                          names_from = scenario,
                          values_from = c("cases", "dalys", "deaths"))
   }
-  all_data <- read_one(names(paths)[1])
+  all_data <- read_one(names(file_paths)[1])
   for (name in names(file_paths)[-1]) {
     message("Processing ", name)
     data <- read_one(name)
