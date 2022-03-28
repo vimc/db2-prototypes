@@ -3,11 +3,11 @@
 library("magrittr")
 
 import <- function(id, root_name) {
-  scenarios <-  c("measles-no-vaccination", "measles-campaign-default",
-                  "measles-campaign-only-default", "measles-mcv1-default",
-                  "measles-mcv2-default", "measles-campaign-ia2030_target",
-                  "measles-campaign-only-ia2030_target",
-                  "measles-mcv1-ia2030_target", "measles-mcv2-ia2030_target")
+  scenarios <-  c("no-vaccination", "campaign-default",
+                  "campaign-only-default", "mcv1-default",
+                  "mcv2-default", "campaign-ia2030_target",
+                  "campaign-only-ia2030_target",
+                  "mcv1-ia2030_target", "mcv2-ia2030_target")
   files <- sprintf("%s%s.csv.xz", root_name, scenarios)
   file_paths <- setNames(file.path("stochastics", files), scenarios)
 
@@ -37,7 +37,7 @@ import <- function(id, root_name) {
 
 # PSU-Ferrari
 start <- Sys.time()
-import(2, "coverage_202110gavi-3_")
+import(2, "coverage_202110gavi-3_measles-")
 end <- Sys.time()
 time <- end - start
 msg <- paste0("PSU-Ferrari import: ", time, " ", attr(time, "units"))
