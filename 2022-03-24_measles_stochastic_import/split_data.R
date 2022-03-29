@@ -21,9 +21,9 @@ split_data <- function(root_name) {
       if (!dir.exists("processed")) {
         dir.create("processed", FALSE, FALSE)
       }
-      out_path <- sprintf("processed/%s_%s.csv", tools::file_path_sans_ext(file), country)
+      out_path <- sprintf("processed/%s_%s.csv.xz", tools::file_path_sans_ext(file, compression = TRUE), country)
       message("Writing ", out_path)
-      write.csv(data, sprintf("processed/stochastics_%s_age_disag.csv", id), row.names = FALSE)
+      write.csv(data, file = xzfile(out_path), row.names = FALSE)
     }
   }
 }
