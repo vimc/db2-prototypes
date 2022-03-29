@@ -49,11 +49,5 @@ if (!file.exists(output_file)) {
 write(msg, file = output_file, append = TRUE)
 gc()
 
-# LSHTM-Jit
-start <- Sys.time()
-import(3, "Han Fu - stochastic_burden_estimate_measles-LSHTM-Jit-")
-end <- Sys.time()
-time <- end - start
-msg <- paste0("LSHTM-Jit import: ", time, " ", attr(time, "units"))
-message(msg)
-write(msg, file = output_file, append = TRUE)
+# LSHTM-Jit - this method runs out of memory for LSHTM-Jit so we have to
+# do import it another way!
