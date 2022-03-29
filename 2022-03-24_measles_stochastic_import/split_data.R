@@ -12,6 +12,7 @@ split_data <- function(root_name) {
 
   for (file in files) {
     gc()
+    message("Processing ", file)
     path <- file.path("stochastics", file)
     data <- read.csv(path)
     countries <- unique(data$country)
@@ -21,6 +22,7 @@ split_data <- function(root_name) {
         dir.create("processed", FALSE, FALSE)
       }
       out_path <- sprintf("processed/%s_%s.csv", tools::file_path_sans_ext(file), country)
+      message("Writing ", out_path)
       write.csv(data, sprintf("processed/stochastics_%s_age_disag.csv", id), row.names = FALSE)
     }
   }
