@@ -1,5 +1,20 @@
 #!/usr/bin/env Rscript
 
+process_single_file <- function(file) {
+  message("Processing ", file)
+  path <- file.path("stochastics", file)
+  data <- readr::read_csv(path)
+  countries <- unique(data$country)
+  for (country in countries) {
+    subset <- data[data$country == country, ]
+    if (!dir.exists("processed")) {
+      dir.create("processed", FALSE, FALSE)
+    }
+    out_path <- sprintf("processed/%s_%s.qs", tools::file_path_sans_ext(file, compression = TRUE), country)
+    message("Writing ", out_path)
+    qs::qsave(subset, file = out_path)
+  }
+}
 ## This splits the data into much more manageable chunks for importing
 split_data <- function(root_name) {
   scenarios <-  c("no-vaccination", "campaign-default",
@@ -8,24 +23,7 @@ split_data <- function(root_name) {
                   "campaign-only-ia2030_target",
                   "mcv1-ia2030_target", "mcv2-ia2030_target")
   files <- sprintf("%s%s.csv.xz", root_name, scenarios)
-  file_paths <- setNames(file.path("stochastics", files), scenarios)
-
-  for (file in files) {
-    gc()
-    message("Processing ", file)
-    path <- file.path("stochastics", file)
-    data <- read.csv(path)
-    countries <- unique(data$country)
-    for (country in countries) {
-      subset <- data[data$country == country, ]
-      if (!dir.exists("processed")) {
-        dir.create("processed", FALSE, FALSE)
-      }
-      out_path <- sprintf("processed/%s_%s.csv.xz", tools::file_path_sans_ext(file, compression = TRUE), country)
-      message("Writing ", out_path)
-      write.csv(data, file = xzfile(out_path), row.names = FALSE)
-    }
-  }
+  parallel::mclapply(files, process_single_file)
 }
 
 start <- Sys.time()
