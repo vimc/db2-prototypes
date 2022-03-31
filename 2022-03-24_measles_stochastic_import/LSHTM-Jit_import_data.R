@@ -11,7 +11,7 @@ import_single_country <- function(id, root_name, country) {
 
   read_scenario <- function(scenario) {
     file_path <- sprintf("processed/%s%s_%s.qs", root_name, scenario, country)
-    qs::qread(file_path)
+    data <- qs::qread(file_path)
     data %>%
       dplyr::mutate(scenario = scenario) %>%
       dplyr::select(-disease, -country_name) %>%
