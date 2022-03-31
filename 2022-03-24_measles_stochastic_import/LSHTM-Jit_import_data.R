@@ -24,7 +24,7 @@ import_single_country <- function(id, root_name, country) {
   for (scenario in scenarios[-1]) {
     message("Processing ", country, " scenario ", scenario)
     data <- read_scenario(scenario)
-    all_data <- dplyr::full_join(country_data, data,
+    country_data <- dplyr::full_join(country_data, data,
                                  by = c("year", "age", "country", "run_id", "cohort_size"))
     gc()
   }
