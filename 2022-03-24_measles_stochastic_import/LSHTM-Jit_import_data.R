@@ -19,7 +19,7 @@ import_single_country <- function(id, root_name, country) {
                          names_from = scenario,
                          values_from = c("cases", "dalys", "deaths"))
   }
-  message("Processing ", country, " scenario ", scenario[1])
+  message("Processing ", country, " scenario ", scenarios[1])
   country_data <- read_scenario(scenarios[1])
   for (scenario in scenarios[-1]) {
     message("Processing ", country, " scenario ", scenario)
@@ -47,7 +47,7 @@ start <- Sys.time()
 import(3, "Han Fu - stochastic_burden_estimate_measles-LSHTM-Jit-")
 end <- Sys.time()
 time <- end - start
-msg <- paste0("PSU-Ferrari import: ", time, " ", attr(time, "units"))
+msg <- paste0("LSHTM-Jit import: ", time, " ", attr(time, "units"))
 message(msg)
 output_file <- "timings.txt"
 if (!file.exists(output_file)) {
