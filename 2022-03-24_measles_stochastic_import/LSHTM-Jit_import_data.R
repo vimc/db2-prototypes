@@ -29,6 +29,7 @@ import_single_country <- function(id, root_name, country) {
     gc()
   }
 
+  message("Importing ", country)
   con <- dettl:::db_connect("local", ".")
   DBI::dbAppendTable(con, sprintf("stochastic_%s_age_disag", id), country_data)
 }
