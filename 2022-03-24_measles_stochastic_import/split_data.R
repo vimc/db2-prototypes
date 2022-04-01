@@ -37,3 +37,11 @@ if (!file.exists(output_file)) {
   file.create(output_file)
 }
 write(msg, file = output_file, append = TRUE)
+
+start <- Sys.time()
+split_data("coverage_202110gavi-3_measles-")
+end <- Sys.time()
+time <- end - start
+msg <- paste0("PSU-Ferrari data split: ", time, " ", attr(time, "units"))
+message(msg)
+write(msg, file = output_file, append = TRUE)
