@@ -142,8 +142,8 @@ read_scenario <- function(root_name, scenario, country) {
 ## This imports the qs files saved out by
 ## 2022-03-24_measles_stochastic_import/split_data.R
 import_from_files <- function(id, root_name, sum_func) {
-  files <- list.files("processed")
-  countries <- unique(gsub(sprtinf("^%s.+_([A-Z]{2,3})\\.qs$", root_name), "\\1", files))
+  files <- list.files("processed", pattern = root_name)
+  countries <- unique(gsub(sprintf("^%s.+_([A-Z]{2,3})\\.qs$", root_name), "\\1", files))
 
   scenarios <-  c("no-vaccination", "campaign-default",
                   "campaign-only-default", "mcv1-default",
@@ -154,10 +154,10 @@ import_from_files <- function(id, root_name, sum_func) {
 
   for (country in countries) {
     message("Processing ", country, " scenario ", scenarios[1])
-    country_data <- read_scenario(root_name, country, scenarios[1])
+    country_data <- read_scenario(root_name, scenarios[1], country)
     for (scenario in scenarios[-1]) {
       message("Processing ", country, " scenario ", scenario)
-      data <- read_scenario(root_name, country, scenario)
+      data <- read_scenario(root_name, scenario, country)
       country_data <- dplyr::full_join(country_data, data,
                                        by = c("year", "age", "country", "run_id", "cohort_size"))
     }
