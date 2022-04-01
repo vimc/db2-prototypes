@@ -124,6 +124,7 @@ import_from_db <- function(id, sum_func) {
   table <- sprintf("stochastic_%s_age_disag", id)
   age_disag = DBI::dbGetQuery(con, sprintf("select * from %s", table))
   import(con, id, sum_func, age_disag)
+  Sys.time()
 }
 
 read_scenario <- function(root_name, scenario, country) {
@@ -163,6 +164,7 @@ import_from_files <- function(id, root_name, sum_func) {
     }
     import(con, id, sum_func, country_data)
   }
+  Sys.time()
 }
 
 # Metadata
