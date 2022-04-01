@@ -70,21 +70,18 @@ import_metadata <- function() {
   Sys.time()
 }
 
-import <- function(id, sum_func) {
-  con <- dettl:::db_connect("local", ".")
-  table <- sprintf("stochastic_%s_age_disag", id)
-  age_disag = DBI::dbGetQuery(con, sprintf("select * from %s", table))
-
+import <- function(con, start_id, sum_func, age_disag) {
   ## Each stochastic age disag table makes 4 new tables so set id of
   ## tables to be added e.g. stochastic age disag id 1 creates 1- 4
   ## age disag 2 creates 5 - 8 etc.
-  new_table_id <- ((id - 1) * 4) + 1
+  new_table_id <- ((start_id - 1) * 4) + 1
   message(paste0("Writing table stochastic_", new_table_id))
   stochastic_1 <- age_disag %>%
     dplyr::select(-cohort_size) %>%
     dplyr::group_by(run_id, year, country) %>%
     sum_func()
-  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_1)
+  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_1,
+                    append = TRUE)
   new_table_id <- new_table_id + 1
 
   message(paste0("Writing table stochastic_", new_table_id))
@@ -94,7 +91,8 @@ import <- function(id, sum_func) {
     dplyr::select(-cohort_size) %>%
     dplyr::group_by(run_id, year, country) %>%
     sum_func()
-  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_2)
+  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_2,
+                    append = TRUE)
   new_table_id <- new_table_id + 1
 
   message(paste0("Writing table stochastic_", new_table_id))
@@ -103,7 +101,8 @@ import <- function(id, sum_func) {
     dplyr::select(-cohort_size, -year) %>%
     dplyr::group_by(run_id, cohort, country) %>%
     sum_func()
-  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_3)
+  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_3,
+                    append = TRUE)
   new_table_id <- new_table_id + 1
 
   message(paste0("Writing table stochastic_", new_table_id))
@@ -112,9 +111,58 @@ import <- function(id, sum_func) {
     dplyr::select(-cohort_size, -year) %>%
     dplyr::group_by(run_id, cohort, country) %>%
     sum_func()
-  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_4)
+  DBI::dbWriteTable(con, paste0("stochastic_", new_table_id), stochastic_4,
+                    append = TRUE)
+}
 
-  Sys.time()
+## Import stochastic_n_age_disag table from DB and transform into
+## stochastic_1 etc. tables
+## Note this won't work for measles as it reads all the stochastic age disag
+## table into memory and this will be too much data for measles
+import_from_db <- function(id, sum_func) {
+  con <- dettl:::db_connect("local", ".")
+  table <- sprintf("stochastic_%s_age_disag", id)
+  age_disag = DBI::dbGetQuery(con, sprintf("select * from %s", table))
+  import(con, id, sum_func, age_disag)
+}
+
+read_scenario <- function(root_name, scenario, country) {
+  file_path <- sprintf("processed/%s%s_%s.qs", root_name, scenario, country)
+  data <- qs::qread(file_path)
+  data %>%
+    dplyr::mutate(scenario = paste0("measles-", scenario)) %>%
+    dplyr::select(-disease, -country_name) %>%
+    tidyr::pivot_wider(id_cols = c("year", "age", "country", "run_id", "cohort_size"),
+                       names_from = scenario,
+                       values_from = c("cases", "dalys", "deaths"))
+}
+
+## Load raw age disaggregated files and import country by country to avoid
+## running out of memory
+## This imports the qs files saved out by
+## 2022-03-24_measles_stochastic_import/split_data.R
+import_from_files <- function(id, root_name, sum_func) {
+  files <- list.files("processed")
+  countries <- unique(gsub(sprtinf("^%s.+_([A-Z]{2,3})\\.qs$", root_name), "\\1", files))
+
+  scenarios <-  c("no-vaccination", "campaign-default",
+                  "campaign-only-default", "mcv1-default",
+                  "mcv2-default", "campaign-ia2030_target",
+                  "campaign-only-ia2030_target",
+                  "mcv1-ia2030_target", "mcv2-ia2030_target")
+  con <- dettl:::db_connect("local", ".")
+
+  for (country in countries) {
+    message("Processing ", country, " scenario ", scenarios[1])
+    country_data <- read_scenario(root_name, country, scenarios[1])
+    for (scenario in scenarios[-1]) {
+      message("Processing ", country, " scenario ", scenario)
+      data <- read_scenario(root_name, country, scenario)
+      country_data <- dplyr::full_join(country_data, data,
+                                       by = c("year", "age", "country", "run_id", "cohort_size"))
+    }
+    import(con, id, sum_func, country_data)
+  }
 }
 
 # Metadata
@@ -131,23 +179,25 @@ write(msg, file = output_file, append = TRUE)
 
 # YF
 start <- Sys.time()
-end <- import(1, sum_metrics_yf)
+end <- import_from_db(1, sum_metrics_yf)
 time <- end - start
 msg <- paste0("YF import: ", time, " ", attr(time, "units"))
 message(msg)
 write(msg, file = output_file, append = TRUE)
+gc()
 
 # Measles PSU-Ferrari
 start <- Sys.time()
-end <- import(2, sum_metrics_measles)
+end <- import_from_files(2, "coverage_202110gavi-3_measles-", sum_metrics_measles)
 time <- end - start
 msg <- paste0("Measles PSU-Ferrari import: ", time, " ", attr(time, "units"))
 message(msg)
 write(msg, file = output_file, append = TRUE)
+gc()
 
 # Measles LSHTM-Jit
 start <- Sys.time()
-end <- import(3, sum_metrics_measles)
+end <- import_from_files(3, "Han Fu - stochastic_burden_estimate_measles-LSHTM-Jit-", sum_metrics_measles)
 time <- end - start
 msg <- paste0("Measles LSHTM-Jit import: ", time, " ", attr(time, "units"))
 message(msg)

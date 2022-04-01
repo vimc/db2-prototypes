@@ -14,6 +14,7 @@ process_single_file <- function(file) {
     message("Writing ", out_path)
     qs::qsave(subset, file = out_path)
   }
+  gc()
 }
 ## This splits the data into much more manageable chunks for importing
 split_data <- function(root_name) {
@@ -23,7 +24,9 @@ split_data <- function(root_name) {
                   "campaign-only-ia2030_target",
                   "mcv1-ia2030_target", "mcv2-ia2030_target")
   files <- sprintf("%s%s.csv.xz", root_name, scenarios)
-  parallel::mclapply(files, process_single_file)
+  ## This can run in parallel for LSHTM-Jit but runs out of memory for
+  ## PSU-Ferrari so just stick to using lapply
+  lapply(files, process_single_file)
 }
 
 start <- Sys.time()
