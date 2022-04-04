@@ -219,7 +219,6 @@ fun_bootstrap <- function(paths, n = 100e3, con, annex, is_test) {
     }
     dat <- do.call(rbind, dat)
 
-    dat$country <- country$id[match(dat$country, country$nid)]
     print(paste("creating table", dat_names[k]))
 
     if (dat_names[k] == "intervention_all") {
