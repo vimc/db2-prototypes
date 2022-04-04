@@ -1,0 +1,25 @@
+dettl:
+  mode: create
+
+sources:
+  - R/extract.R
+  - R/transform.R
+  - R/verification_queries.R
+  - R/stochastics_functions.R
+  - R/coverage_clustering.R
+  - R/db.R
+  - R/utils.R
+  - R/generate_data.R
+
+extract:
+  func: extract
+  test: tests/test_extract.R
+
+transform:
+  func: transform
+  test: tests/test_transform.R
+
+load:
+  automatic: TRUE
+  verification_queries: queries
+  test: tests/test_load.R

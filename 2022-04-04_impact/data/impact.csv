@@ -1,0 +1,8 @@
+disease,vaccine,activity_type,focal_ingredient,baseline,comment,
+Measles,MCV1,routine,measles-mcv1-default,measles-no-vaccination,,
+Measles,MCV2,routine,measles-mcv2-default,measles-mcv1-default,,
+Measles,Measles,campaign,measles-campaign-default,measles-mcv2-default,,
+Measles,all,all,measles-campaign-default,measles-no-vaccination,,
+YF,YF,campaign,yf-preventive-default,yf-routine-default,,
+YF,YF,routine,yf-routine-default,yf-no-vaccination,,
+YF,all,all,yf-preventive-default,yf-no-vaccination,,

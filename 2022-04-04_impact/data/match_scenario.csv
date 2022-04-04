@@ -1,0 +1,8 @@
+disease,scenario_description,annex_description
+Measles,measles-campaign-default,measles-campaign-default
+Measles,measles-no-vaccination,measles-no-vaccination
+Measles,measles-mcv2-default,measles-mcv2-default
+Measles,measles-mcv1-default,measles-mcv1-default
+YF,yf-preventive-default,yf-preventive-default
+YF,yf-no-vaccination,yf-no-vaccination
+YF,yf-routine-default,yf-routine-default
