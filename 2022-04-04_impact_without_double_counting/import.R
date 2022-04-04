@@ -11,7 +11,7 @@ source("R/util.R")
 
 import <- function() {
   con <- dettl:::db_connect("local", ".")
-  data <- extract(".", con)
+  data <- extract(con)
   transformed <- transform(data)
 
   ## Import the data
