@@ -15,7 +15,6 @@ process_bootstrap_sample_compute <- function(boots_id, cluster, data, gavi73) {
   d <- proportional_burden_prep(data, cluster, boots_id)
   d2 <- d[!is.na(d$index_level1), ]
   d2 <- d2[order(d2$index_level1, d2$n_vaccines), ]
-  browser()
   compute_thing(d2, gavi73)
 }
 
