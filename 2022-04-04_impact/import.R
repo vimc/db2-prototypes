@@ -10,7 +10,7 @@ source("R/transform.R")
 source("R/utils.R")
 
 import <- function() {
-  con <- dettl:::db_connect("experiment", ".")
+  con <- dettl:::db_connect("local", ".")
   data <- extract(".", con)
   transformed <- transform(data)
 

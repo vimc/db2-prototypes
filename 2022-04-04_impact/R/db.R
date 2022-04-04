@@ -17,5 +17,5 @@ db_connect_science <- function() {
 }
 
 db_connect_experiment <- function() {
-  dettl:::db_connect("experiment", ".")
+  dettl:::db_connect("local", ".")
 }
