@@ -7,7 +7,7 @@ source("R/extract.R")
 source("R/load.R")
 source("R/process_bootstrap.R")
 source("R/transform.R")
-source("R/utils.R")
+source("R/util.R")
 
 import <- function() {
   con <- dettl:::db_connect("local", ".")
