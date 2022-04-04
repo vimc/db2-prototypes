@@ -14,13 +14,13 @@ get_stochastics <- function(annex, meta_stochastic, disease, life_time, under5, 
     if (life_time) {
       burden[[i]] <- DBI::dbGetQuery(annex, paste(sprintf("SELECT * FROM %s",
                                                           paste0("stochastic_", index$id[i])),
-                                                  "WHERE cohort BETWEEN $1 AND $2", test_run_id), list(year_min, year_max))
+                                                  "WHERE cohort BETWEEN $1 AND $2 AND run_id != 0", test_run_id), list(year_min, year_max))
       burden[[i]]$year <- burden[[i]]$cohort
       burden[[i]]$cohort <- NULL
     } else {
       burden[[i]] <- DBI::dbGetQuery(annex, paste(sprintf("SELECT * FROM %s",
                                                           paste0("stochastic_", index$id[i])),
-                                                  "WHERE year BETWEEN $1 AND $2", test_run_id), list(year_min, year_max))
+                                                  "WHERE year BETWEEN $1 AND $2 and run_id != 0", test_run_id), list(year_min, year_max))
     }
     # cannot remember what the following is for, comment out for now
     # maybe it was just to get rid of [sia+rcv1] scenario, avoiding confusion

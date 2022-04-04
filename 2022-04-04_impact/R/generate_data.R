@@ -53,6 +53,14 @@ generate_data <- function(is_test = TRUE) {
     print("calculate method2 impact")
     dat_method2 <- impact_method2(con, disease, dat_cross, dat_life, fvp, meta_stochastic)
     saveRDS(dat_method2, file.path(disease, "raw_allage_intervention.rds"))
+
+    dat_cross <- get_stochastics(annex, meta_stochastic, disease, life_time = FALSE, under5 = TRUE,
+                                 impact_recipe = impact, is_test = is_test, scenario_type = scenario_type)
+    dat_life <- get_stochastics(annex, meta_stochastic, disease, life_time = TRUE, under5 = TRUE,
+                                impact_recipe = impact, is_test = is_test, scenario_type = scenario_type)
+
+    saveRDS(dat_cross, file.path(disease, "raw_under5_cross.rds"))
+    saveRDS(dat_life, file.path(disease, "raw_under5_cohort.rds"))
   }
 
   ### prepare method0, method1, method2 impact estimates, and bootstrap ids.
