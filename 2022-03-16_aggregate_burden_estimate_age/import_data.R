@@ -65,7 +65,9 @@ import_metadata <- function() {
     is_cohort = c(FALSE, FALSE, TRUE, TRUE),
     is_under5 = c(FALSE, TRUE, FALSE, TRUE)
   )
-  stochastic_file <- merge(metadata, aggregates)
+  stochastic_file <- merge(aggregates, metadata) %>%
+    dplyr::mutate(id = dplyr::row_number()) %>%
+    dplyr::arrange(id, touchstone, modelling_group, disease, is_cohort, is_under5)
   DBI::dbWriteTable(con, "stochastic_file", stochastic_file)
   Sys.time()
 }
