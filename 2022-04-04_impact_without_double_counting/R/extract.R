@@ -1,6 +1,6 @@
 extract <- function(con) {
 
-  is_test <- TRUE
+  is_test <- FALSE
   n_size <- ifelse(is_test, 10, 1e3)
 
   library(vimpact)

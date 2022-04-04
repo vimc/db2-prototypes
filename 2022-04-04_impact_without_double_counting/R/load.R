@@ -33,13 +33,13 @@ load <- function(transformed_data, con) {
   for (bootstrap_id in seq_len(n)) {
     message(sprintf("Processing bootstap sample %s", bootstrap_id))
     process_bootstrap_sample(bootstrap_id, "cross_all_2021", extracted_data,
-                             con, upload = FALSE)
+                             con, upload = TRUE)
     process_bootstrap_sample(bootstrap_id, "cross_under5_2021", extracted_data,
-                             con, upload = FALSE)
+                             con, upload = TRUE)
     process_bootstrap_sample(bootstrap_id, "cohort_all_2021", extracted_data,
-                             con, upload = FALSE)
+                             con, upload = TRUE)
     process_bootstrap_sample(bootstrap_id, "cohort_under5_2021", extracted_data,
-                             con, upload = FALSE)
+                             con, upload = TRUE)
   }
   a = DBI::dbListTables(con)
   print(a[grepl("_2021", a)])
