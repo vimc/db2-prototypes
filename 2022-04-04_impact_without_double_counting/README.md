@@ -2,6 +2,8 @@
 
 This import creates impact_cluster_* tables. This runs the bootstrapping to get percentiles. This import is copied and modified from annex-import 2022-02-26_vimc_6036_paper_3rd_unique_data_sets_without_double_counting
 
+Note I manually updated the password for DB used in R/db.R for period of running. If re-running you will have to work out how to resolve this from the vault or do the manual change again
+
 ## Notes from annex-import
 
 ## Paper 3rd datasets without double counting import

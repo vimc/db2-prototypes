@@ -16,8 +16,8 @@ db_connect_science <- function() {
                  password = resolved_args[[1]])
 }
 
-db_connect_annex <- function() {
-  dettl:::db_connect("annex", ".")
+db_connect_experiment <- function() {
+  dettl:::db_connect("local", ".")
 }
 
 cache_rds <- function(expr, file) {
