@@ -298,7 +298,6 @@ re_name <- function(d, disease_d, ignore.useless = TRUE, is_method2 = FALSE) {
   long_to_wide <- function(dat, d, vaccines, activity_types){
     for(i in seq_along(dat)){
       dat[[i]] <- d[c(grepl(paste0(vaccines[i], "-", activity_types[i], "-"), names(d)) | names(d) %in% key_cols)]
-      #dat[[i]]$vaccine <- ifelse(disease_d == "Rubella", "Rubella", vaccines[i])
       dat[[i]]$vaccine <- vaccines[i]
       dat[[i]]$activity_type <- activity_types[i]
       names(dat[[i]]) <- gsub(paste0(vaccines[i], "-", activity_types[i], "-"), "", names(dat[[i]]))
@@ -335,6 +334,7 @@ re_name <- function(d, disease_d, ignore.useless = TRUE, is_method2 = FALSE) {
       vaccines <- disease_d
       activity_types <- "campaign"
     }
+    browser()
     d <- long_to_wide(dat, d, vaccines, activity_types)
 
 

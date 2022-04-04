@@ -7,19 +7,18 @@ prepare_fvp <- function(con, touchstone_name = "201710gavi", country_endemic_tou
   year_min <- 1980
   year_max <- 2030
   ## year_min = 1980 is needed for the sake of coverage clustering and removal of double counting, which tract pre-2000 cohorts
-  fvp_raw <- vimpact::extract_vaccination_history(con, touchstone_cov = touchstone_name, 
+  fvp_raw <- vimpact::extract_vaccination_history(con, touchstone_cov = touchstone_name,
                                                   year_min = year_min, year_max = year_max,
                                                   scenario_type = scenario_type)
   fvp <- fvp_raw %>%
-    mutate(country = country_nid,
-           population = cohort_size,
+    mutate(population = cohort_size,
            coverage = coverage_adjusted,
            fvps = fvps_adjusted) %>%
     filter(coverage > 0) %>%
     select(disease, vaccine, activity_type, country, year, age, gavi_support, population, coverage, fvps)
-  
+
   ## cohort level coverage for coverage clustering
-  ## by default, we combine fvps for any cohort and vaccination year 
+  ## by default, we combine fvps for any cohort and vaccination year
   ## - e.g. two campaigns targting cohort 2018 in year 2020, combine fvps, and re-calculate coverage for this cohort/year combination
   d_pop <- unique(fvp[c("vaccine", "activity_type", "country", "year", "age", "population")])
   d_fvps <- aggregate(fvps ~ disease + vaccine + activity_type + country + year + age, fvp, sum, na.rm = TRUE)
@@ -28,7 +27,7 @@ prepare_fvp <- function(con, touchstone_name = "201710gavi", country_endemic_tou
   d_cohort$coverage[d_cohort$coverage > 1] <- 1
   d_cohort$cohort <- d_cohort$year - d_cohort$age
   stopifnot(sum(d_cohort$fvps) == sum(fvp$fvps))
-  
+
   ## standard coverage fvp table for impact ratios and  impact by year of vaccination
   d_pop <- unique(fvp[c("disease", "vaccine", "activity_type", "country", "year", "age", "population", "gavi_support")])
   d_fvps <- aggregate(fvps ~ vaccine + activity_type + country + year + age + gavi_support, fvp, sum, na.rm = TRUE)
