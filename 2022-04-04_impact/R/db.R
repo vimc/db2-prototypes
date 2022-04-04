@@ -16,6 +16,6 @@ db_connect_science <- function() {
                  password = resolved_args[[1]])
 }
 
-db_connect_annex <- function() {
+db_connect_experiment <- function() {
   dettl:::db_connect("experiment", ".")
 }

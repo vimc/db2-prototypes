@@ -31,7 +31,7 @@ generate_data <- function(is_test = TRUE) {
   ### start working
   ### 2. prepare stochastic estimates -- about ?? mins
   ### for each disease, store three views of raw burden/impact estimates
-  diseases <- DBI::dbGetQuery(con, "SELECT id FROM disease WHERE id NOT IN ('DTP')")[["id"]]
+  diseases <- c("Measles", "YF")
   n_bootstrap <- if (is_test) 10 else 1e3
 
   for(disease in diseases){
