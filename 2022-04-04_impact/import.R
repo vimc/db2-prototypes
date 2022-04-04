@@ -15,9 +15,18 @@ import <- function() {
   transformed <- transform(data)
 
   ## Import the data
-  browser()
-  "test"
-
+  message("Writing cohort_all_2021")
+  DBI::dbWriteTable(con, "cohort_all_2021", transformed$cohort_all_2021)
+  message("Writing cohort_under5_2021")
+  DBI::dbWriteTable(con, "cohort_under5_2021", transformed$cohort_under5_2021)
+  message("Writing cross_all_2021")
+  DBI::dbWriteTable(con, "cross_all_2021", transformed$cross_all_2021)
+  message("Writing cross_under5_2021")
+  DBI::dbWriteTable(con, "cross_under5_2021", transformed$cross_under5_2021)
+  message("Writing intervention_all_2021")
+  DBI::dbWriteTable(con, "intervention_all_2021", transformed$intervention_all_2021)
+  message("Writing bootstrap_2021")
+  DBI::dbWriteTable(con, "bootstrap_2021", transformed$bootstrap_2021)
 }
 
 start <- Sys.time()

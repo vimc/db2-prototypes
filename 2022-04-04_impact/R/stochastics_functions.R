@@ -334,7 +334,6 @@ re_name <- function(d, disease_d, ignore.useless = TRUE, is_method2 = FALSE) {
       vaccines <- disease_d
       activity_types <- "campaign"
     }
-    browser()
     d <- long_to_wide(dat, d, vaccines, activity_types)
 
 

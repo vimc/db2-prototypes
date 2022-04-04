@@ -11,7 +11,7 @@
 #' @keywords internal
 extract <- function(path, con) {
   ## Check if data exists already - if not then run this
-  is_test = TRUE
+  is_test = FALSE
 
   output_files <- list(
     cohort_all_2021 = "cohort_all.rds",
