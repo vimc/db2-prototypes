@@ -1,6 +1,6 @@
 db_connect_science <- function() {
   config <- dettl:::dettl_config(".")
-  password <- "VAULT:/secret/database/users/readonly:password"
+  password <- "VAULT:/secret/vimc/database/users/readonly:password"
   withr::with_envvar(
     dettl:::envir_read(config$path),
     resolved_args <- vaultr::vault_resolve_secrets(

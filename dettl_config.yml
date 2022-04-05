@@ -24,7 +24,7 @@ db:
       host: annex.montagu.dide.ic.ac.uk
       port: 15432
       user: vimc
-      password: VAULT:/secret/annex/users/vimc:password
+      password: VAULT:/secret/vimc/annex/users/vimc:password
     log_table: dettl_import_log
   science:
     driver: RPostgres::Postgres
@@ -33,7 +33,7 @@ db:
       host: support.montagu.dide.ic.ac.uk
       port: 5432
       user: import
-      password: VAULT:/secret/database/science/users/import:password
+      password: VAULT:/secret/vimc/database/science/users/import:password
     log_table: dettl_import_log
 
-vault_server: https://support.montagu.dide.ic.ac.uk:8200
+vault_server: https://vault.dide.ic.ac.uk:8200
