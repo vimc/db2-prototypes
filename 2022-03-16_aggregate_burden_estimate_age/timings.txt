@@ -1,0 +1,4 @@
+Metadata import: 0.569570302963257 secs
+YF import: 9.92414023478826 mins
+Measles PSU-Ferrari import: 1.21136101060443 hours
+Measles LSHTM-Jit import: 3.4894978713327 hours

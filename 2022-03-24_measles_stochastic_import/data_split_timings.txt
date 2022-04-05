@@ -1,0 +1,4 @@
+LSHTM-Jit data split: 2.05640286895964 hours
+PSU-Ferrari data split: 9.21593322356542 mins ## Note this was run in 2 bits and this is only the timing
+## for the 2nd part, the first ran out of disk space and exited early so no timing recorded
+## This time above is only for creating country files for the last scenario
