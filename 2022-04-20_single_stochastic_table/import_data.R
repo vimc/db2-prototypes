@@ -83,3 +83,12 @@ if (!file.exists(output_file)) {
   file.create(output_file)
 }
 write(msg, file = output_file, append = TRUE)
+
+
+start <- Sys.time()
+con <- dettl:::db_connect("local", ".")
+DBI::dbGetQuery(con, "CREATE INDEX stochastic_id_index on stochastic_all (stochastic_id)")
+end <- Sys.time()
+time <- end - start
+msg <- paste0("Index ", time, " ", attr(time, "units"))
+write(msg, file = output_file, append = TRUE)
