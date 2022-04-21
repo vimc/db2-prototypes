@@ -3,8 +3,7 @@
 library("magrittr")
 
 import_single_table <- function(stochastic_id) {
-  all_metric_columns <- c("year", "cohort",
-                          "cases_yf-no-vaccination",
+  all_metric_columns <- c("cases_yf-no-vaccination",
                           "cases_yf-preventive-default",
                           "cases_yf-preventive-ia2030_target",
                           "cases_yf-routine-default",
@@ -48,17 +47,22 @@ import_single_table <- function(stochastic_id) {
                           "dalys_measles-mcv2-ia2030_target")
 
   con <- dettl:::db_connect("local", ".")
-  all_data <- DBI::dbGetQuery(con, paste0("SELECT * FROM stochastic_%s",
+  all_data <- DBI::dbGetQuery(con, paste0("SELECT * FROM stochastic_",
                                           stochastic_id))
 
   ## Join on any missing columns with NA values
-  missing <- colnames(all_data)[!(colnames(all_data) %in% all_metric_columns)]
-  lapply(missing, function(col_name) {
+  missing <- all_metric_columns[!(all_metric_columns %in% colnames(all_data))]
+  for (col_name in missing) {
     all_data[[col_name]] <- NA_real_
-  })
+  }
+  if ("year" %in% colnames(all_data)) {
+    all_data$cohort <- NA_integer_
+  } else if ("cohort" %in% colnames(all_data)) {
+    all_data$year <- NA_integer_
+  }
   all_data$stochastic_id <- stochastic_id
 
-  all_data %>%
+  all_data <- all_data %>%
     dplyr::arrange(stochastic_id, run_id, year, cohort, country) %>%
     dplyr::relocate(stochastic_id, run_id, year, cohort, country)
 
