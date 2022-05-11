@@ -4,12 +4,12 @@ import <- function() {
   con <- dettl:::db_connect("local", ".")
   DBI::dbBegin(con)
   DBI::dbExecute(con, "CREATE TABLE stochastic_all_normalised (
-  stochastic_id integer
-  run_id integer
-  year integer
-  cohort integer
-  country text
-  metric text
+  stochastic_id integer,
+  run_id integer,
+  year integer,
+  cohort integer,
+  country text,
+  metric text,
   value double
 )")
 
