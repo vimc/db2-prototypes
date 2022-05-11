@@ -10,7 +10,7 @@ import <- function() {
   cohort integer,
   country text,
   metric text,
-  value double
+  value double precision
 )")
 
   data <- dplyr::tbl(con, "stochastic_all") %>%
