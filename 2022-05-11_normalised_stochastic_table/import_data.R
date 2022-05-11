@@ -20,6 +20,7 @@ import <- function() {
   DBI::dbCommit(con)
 }
 
+library("magrittr")
 start <- Sys.time()
 import()
 end <- Sys.time()
