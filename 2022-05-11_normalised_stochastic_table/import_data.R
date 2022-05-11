@@ -15,8 +15,9 @@ import <- function() {
 
   data <- dplyr::tbl(con, "stochastic_all") %>%
     tidyr::pivot_longer("cases_yf-no-vaccination":"dalys_measles-mcv2-ia2030_target",
-                        names_to = "metric", values_drop_na = TRUE)
-  DBI::dbAppendTable(con, "stochastic_all_normalised", data)
+                        names_to = "metric", values_drop_na = TRUE) %>%
+    dplyr::collect()
+  DBI::dbAppendTable(con, "stochastic_all_normalised", as.data.frame(data))
   DBI::dbCommit(con)
 }
 
